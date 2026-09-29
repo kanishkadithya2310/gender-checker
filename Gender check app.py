@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import time
 
 # ----------------------------
@@ -9,6 +10,13 @@ st.set_page_config(
     page_icon="🧬",
     layout="centered",
 )
+
+# ----------------------------
+# Spline scene (paste YOUR public URL here)
+# In Spline: Export -> Public URL -> copy the https://my.spline.design/... link
+# ----------------------------
+SPLINE_URL = "https://my.spline.design/clonerhaircopy-vNPTRR9YKnNwyZf7VSxyewAA/"
+SPLINE_HEIGHT = 420
 
 # ----------------------------
 # Custom styling
@@ -28,7 +36,7 @@ st.markdown(
     .subtitle {
         text-align: center;
         color: #888;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
     }
     .result-card {
         padding: 1.5rem;
@@ -40,6 +48,10 @@ st.markdown(
         margin-top: 1.5rem;
         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
+    /* Round the corners of the 3D scene iframe */
+    iframe {
+        border-radius: 16px;
+    }
     </style>
     """,
     unsafe_allow_html=True,
@@ -50,6 +62,14 @@ st.markdown(
 # ----------------------------
 st.markdown('<div class="big-title">🧬 What\'s Your Type?</div>', unsafe_allow_html=True)
 st.markdown('<div class="subtitle">A wildly scientific 2-question personality classifier</div>', unsafe_allow_html=True)
+
+# ----------------------------
+# 3D Spline scene
+# ----------------------------
+if "YOUR-SCENE-LINK" in SPLINE_URL:
+    st.info("Paste your Spline public URL into SPLINE_URL at the top of the file to show the 3D scene.")
+else:
+    components.iframe(SPLINE_URL, height=SPLINE_HEIGHT)
 
 # ----------------------------
 # Persona data: emoji, description, fun fact
