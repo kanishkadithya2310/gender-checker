@@ -1,0 +1,20 @@
+secret_word = "Ashborn"
+guess = ""
+guess_count = 0
+guess_limit=3
+out_of_guess = False
+
+while guess != secret_word and not(out_of_guess):
+    if guess_count < guess_limit:
+       guess = input("Guess a name: ").title()
+       guess_count += 1
+       if guess != secret_word:
+          guesses_left = guess_limit - guess_count
+          print(f"Wrong! {guesses_left} guess(es) left")
+    else:
+         out_of_guess = True
+
+if out_of_guess:
+    print("Out of guesses, You lose")
+else:
+    print("Correct")
