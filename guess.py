@@ -34,10 +34,8 @@ def reset_game():
 
 
 def start_game(name):
-    correct = secret_words[name]
-    others = [w for w in secret_words.values() if w != correct]
-    options = random.sample(others, 3) + [correct]
-    random.shuffle(options)
+    # All personalities, alphabetical so the order gives nothing away
+    options = sorted(secret_words.values())
     st.session_state.name = name
     st.session_state.guess_count = 0
     st.session_state.status = "playing"
@@ -80,12 +78,15 @@ with st.sidebar:
             st.write(f"{i}. {g} {'✅' if ok else '❌'}")
 
     st.divider()
-    easy_mode = st.toggle("Easy mode (multiple choice)", value=False)
-    st.caption("Easy mode shows 4 options instead of free typing.")
+    easy_mode = st.toggle("Choose from list", value=True)
+    st.caption("On: pick from all personalities. Off: type your guess.")
 
 # ---------- Step 1: enter name ----------
 if st.session_state.name is None:
     st.write("Enter your name to find out if you can guess your own personality tag.")
+    with st.expander("👀 See all personalities"):
+        for w in sorted(secret_words.values()):
+            st.write(f"• {w}")
     with st.form("name_form"):
         entered = st.text_input("Enter your name:")
         submitted = st.form_submit_button("Start 🚀")
@@ -125,10 +126,11 @@ else:
         # Guess form
         with st.form("guess_form", clear_on_submit=True):
             if easy_mode:
-                guess = st.radio(
+                guess = st.selectbox(
                     "Guess your personality:",
                     st.session_state.options,
                     index=None,
+                    placeholder="Choose a personality...",
                 )
             else:
                 guess = st.text_input("Guess your personality:")
